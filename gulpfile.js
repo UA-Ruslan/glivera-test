@@ -7,8 +7,13 @@ const babel = require("gulp-babel");
 const uglify = require("gulp-uglify");
 const concat = require("gulp-concat");
 const sourcemaps = require("gulp-sourcemaps");
-const autoprefixer =require('gulp-autoprefixer')
-const imagemin = require('gulp-imagemin')
+const autoprefixer = require('gulp-autoprefixer');
+const imagemin = require('gulp-imagemin');
+const htmlmin = require('gulp-htmlmin');
+const size = require('gulp-size');
+const newer = require('gulp-newer');
+const browserSync = require('browser-sync').create();
+const ts = require('gulp-typescript')
 
 const paths = {
   styles: {
@@ -16,13 +21,43 @@ const paths = {
     dest: "dist/css/",
   },
   scripts: {
-    src: "src/scripts/**/*.js",
-    dest: "dist/js/",
+    src: ['src/scripts/**/*.ts', 'src/scripts/**/*.js'],
+    dest: 'dist/js/',
+  },
+  img: {
+    src: 'src/img/**',
+    dest: 'dist/img',
+  },
+  html: {
+    src: 'src/*.html',
+    dest: 'dist',
   },
 };
 
 function clean() {
-  return del(["dist"]);
+  return del(['dist/*', '!dist/img']);
+}
+
+function html() {
+  return (
+  gulp.src(paths.html.src)
+  .pipe(htmlmin({ collapseWhitespace: true }))
+  .pipe(size({showFiles: true}))
+  .pipe(gulp.dest(paths.html.dest))
+  .pipe(browserSync.stream())
+  )
+}
+
+function img() {
+  return (
+    gulp.src(paths.img.src)
+    .pipe(newer(paths.img.dest))
+		.pipe(imagemin({
+      progressive: true,
+    }))
+    .pipe(size({showFiles: true}))
+		.pipe(gulp.dest(paths.img.dest))
+  )
 }
 
 function styles() {
@@ -43,7 +78,9 @@ function styles() {
       })
     )
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(paths.styles.dest));
+    .pipe(size({showFiles: true}))
+    .pipe(gulp.dest(paths.styles.dest))
+    .pipe(browserSync.stream())
 }
 
 function scripts() {
@@ -52,23 +89,37 @@ function scripts() {
       sourcemaps: true,
     })
     .pipe(sourcemaps.init())
+    .pipe(ts({
+      noImplicitAny: true,
+      outFile: 'main.min.js'
+  }))
     .pipe(babel({
        presets: ['@babel/env']
     }))
     .pipe(uglify())
     .pipe(concat("main.min.js"))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(paths.scripts.dest));
+    .pipe(size({showFiles: true}))
+    .pipe(gulp.dest(paths.scripts.dest))
+    .pipe(browserSync.stream())
 }
 
 function watch() {
+  browserSync.init({
+    server: "./dist/"
+});
+  gulp.watch(paths.html.dest).on('change', browserSync.reload);
+  gulp.watch(paths.html.src, html);
   gulp.watch(paths.styles.src, styles);
   gulp.watch(paths.scripts.src, scripts);
+  gulp.watch(paths.img.src, img);
 }
 
-const build = gulp.series(clean, gulp.parallel(styles, scripts), watch);
+const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch);
 
 exports.clean = clean;
+exports.img = img
+exports.html = html
 exports.styles = styles;
 exports.scripts = scripts;
 exports.watch = watch;
