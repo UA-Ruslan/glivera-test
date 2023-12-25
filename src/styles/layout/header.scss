@@ -1,0 +1,124 @@
+@import '../helpers/variables.scss';
+@import '../helpers/mixins/fonts.scss';
+
+.header {
+  position: relative;
+  top: 0;
+  left: 0;
+
+  padding: 0 3.74rem;
+
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 5rem;
+
+  background: $white;
+
+  @media screen and (max-width: $point_2) {
+    padding: 0 3.12rem;
+  }
+
+  @media screen and (max-width: $point_6) {
+    padding: 0 $responsive_padding;
+  }
+
+  .logo_wrapper {
+    width: 15.8rem;
+    height: min-content;
+    overflow: hidden;
+    .logo_link .logo {
+      width: 100%;
+      height: auto;
+    }
+
+    @media screen and (max-width: $point_7) {
+      width: 60vw;
+    }
+  }
+  .burger_btn_wrapper {
+    position: fixed;
+    top: 1.8rem;
+    right: 1.5rem;
+    z-index: 100;
+
+    width: 2.26rem;
+    height: 1.44rem;
+
+    @media screen and (min-width: $point_4) {
+      right: 3.75rem;
+    }
+
+    @media screen and (min-width: $point_9) {
+      left: calc(50% + 39.1rem);
+    }
+
+    .burger_btn {
+      position: relative;
+      top: 0;
+      left: 0;
+
+      padding: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: none;
+      border: none;
+
+      transition: $dropdown;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+
+        width: 100%;
+        height: 3px;
+        
+        background-color: $color_text_blue;
+      }
+
+      &::before {
+        top: 0;
+      }
+
+      &::after {
+        bottom: 0;
+      }
+
+      &.burger_btn_active::before,
+      &.burger_btn_active::after {
+        background-color: $white;
+
+        transition: $dropdown;
+      }
+
+      .burger_btn_title {
+        
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        text-transform: uppercase;
+        line-height: .8rem;
+
+        opacity: 0;
+        transform: translate(-50%, -55%);
+        transition: $dropdown;
+
+        @include fonts_options(0.68rem, 900, $color_text_blue);
+      }
+      .burger_btn_close {
+        @include fonts_options(0.6rem, 900, $white);
+      }
+
+      .title_active {
+        opacity: 1;
+
+        transition: $dropdown;
+      }
+    }
+  }
+}

@@ -1,0 +1,101 @@
+@import '../helpers/variables.scss';
+@import '../helpers/mixins/flex-options.scss';
+@import '../helpers/mixins/fonts.scss';
+
+.navbar_wrapper {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 45rem);
+
+  z-index: 90;
+
+  padding: 8.68rem 3.76rem 3.76rem;
+
+  width: 28rem;
+  height: 50rem;
+
+  background-color: $color_text_blue;
+
+  overflow: auto;
+
+  transition: $dropdown;
+
+  @include flex_container($flex_direction: column, $justify_content: flex-start);
+
+  @media screen and (max-width: $point_9) {
+    position: fixed;
+
+    max-height: 50rem;
+    height: 100vh;
+  }
+
+  @media screen and (max-width: $point_4) {
+    width: 100vw;
+    min-height: 100vh;
+
+    padding: 5rem 1.5rem;
+  }
+
+  .navbar .navbar_list {
+    max-width: min-content;
+
+    .navbar_list_item {
+      &:not(:last-child) {
+        margin-bottom: 1.88rem;
+      }
+
+      .navLink {
+        white-space: nowrap;
+
+        @include fonts_options(1.86rem, 900, $white);
+
+        @media screen and (max-width: $point_7) {
+          font-size: 1.5rem;
+        }
+        @media screen and (max-width: $point_8) {
+          font-size: 7vw;
+        }
+      }
+    }
+  }
+
+  .social_networks {
+    margin-top: 3.76rem;
+    padding: 3.76rem 0 0 0;
+
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+    .social_network_list {
+      display: flex;
+      .social_network_list_item {
+        &:not(:last-child) {
+          margin-right: 1.26rem;
+        }
+
+        .social_network_link .social_network_link_icon {
+          transition: $hover;
+
+          &:hover {
+            transform: scale(1.1);
+
+            transition: $hover;
+          }
+        }
+      }
+    }
+  }
+}
+
+.navbar_wrapper_active {
+  left: calc(50% + 17rem);
+
+  transition: $dropdown;
+
+  @media screen and (max-width: $point_9) {
+    left: calc(100% - 28rem);
+  }
+  @media screen and (max-width: $point_4) {
+    left: 0;
+  }
+}
