@@ -6,7 +6,7 @@
   top: 0;
   left: 0;
 
-  padding: 0 3.74rem;
+  padding: 0 6.2rem 0 3.74rem;
 
   display: flex;
   align-items: center;
@@ -16,20 +16,24 @@
   background: $white;
 
   @media screen and (max-width: $point_2) {
-    padding: 0 3.12rem;
+    padding: 0 6.2rem 0 3.12rem;
   }
 
-  @media screen and (max-width: $point_6) {
-    padding: 0 $responsive_padding;
+    @media screen and (max-width: $point_4) {
+    padding: 0 4rem 0 $responsive_padding;
   }
 
   .logo_wrapper {
     width: 15.8rem;
     height: min-content;
     overflow: hidden;
-    .logo_link .logo {
-      width: 100%;
-      height: auto;
+    .logo_link {
+      display: block;
+
+      .logo {
+        width: 100%;
+        height: auto;
+      }
     }
 
     @media screen and (max-width: $point_7) {
@@ -51,6 +55,24 @@
 
     @media screen and (min-width: $point_9) {
       left: calc(50% + 39.1rem);
+    }
+
+    &:hover .burger_btn::before,
+    &:hover .burger_btn::after,
+    .body--open_menu_mod &:hover .burger_btn::before,
+    .body--open_menu_mod &:hover .burger_btn::after {
+      background-color: rgb(105, 105, 105);
+
+      transition: $dropdown;
+    }
+
+    &:hover .burger_btn__title.burger_btn__title--blue_mod,
+    &:hover .burger_btn__title--white_mod,
+    .body--open_menu_mod &:hover .burger_btn__title--blue_mod,
+    .body--open_menu_mod &:hover .burger_btn__title--white_mod {
+      color: $grey;
+
+      transition: $dropdown;
     }
 
     .burger_btn {
@@ -76,7 +98,7 @@
 
         width: 100%;
         height: 3px;
-        
+
         background-color: $color_text_blue;
       }
 
@@ -88,21 +110,20 @@
         bottom: 0;
       }
 
-      &.burger_btn_active::before,
-      &.burger_btn_active::after {
+      .body--open_menu_mod &::before,
+      .body--open_menu_mod &::after {
         background-color: $white;
 
         transition: $dropdown;
       }
 
-      .burger_btn_title {
-        
+      .burger_btn__title {
         position: absolute;
         top: 50%;
         left: 50%;
 
         text-transform: uppercase;
-        line-height: .8rem;
+        line-height: 0.8rem;
 
         opacity: 0;
         transform: translate(-50%, -55%);
@@ -110,14 +131,30 @@
 
         @include fonts_options(0.68rem, 900, $color_text_blue);
       }
-      .burger_btn_close {
+
+      .burger_btn__title--white_mod {
         @include fonts_options(0.6rem, 900, $white);
+
+        opacity: 0;
+
+        transition: $dropdown;
+        .body--open_menu_mod & {
+          opacity: 1;
+
+          transition: $dropdown;
+        }
       }
 
-      .title_active {
+      .burger_btn__title--blue_mod {
         opacity: 1;
 
         transition: $dropdown;
+
+        .body--open_menu_mod & {
+          opacity: 0;
+
+          transition: $dropdown;
+        }
       }
     }
   }

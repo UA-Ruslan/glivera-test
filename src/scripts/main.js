@@ -1,11 +1,17 @@
-const BurgerBtn = document.querySelector('.burger_btn');
-const Navbar = document.querySelector('.navbar_wrapper');
-const TitleActive = document.querySelector('.burger_btn_title.title_active');
-const TitleClose = document.querySelector('.burger_btn_title.burger_btn_close');
+const body = document.body;
+const burgerBtn = document.querySelector('.burger_btn');
+const navbarWrapper = document.querySelector('.navbar_wrapper');
 
-BurgerBtn.addEventListener('click', function () {
-  BurgerBtn.classList.toggle('burger_btn_active');
-  Navbar.classList.toggle('navbar_wrapper_active');
-  TitleActive.classList.toggle('title_active');
-  TitleClose.classList.toggle('title_active');
+burgerBtn.addEventListener('click', function (event) {
+  event.stopPropagation();
+
+  body.classList.toggle('body--open_menu_mod');
+});
+
+document.addEventListener('click', function (event) {
+  if (!navbarWrapper.contains(event.target)) {
+    if (body.classList.contains('body--open_menu_mod')) {
+      body.classList.remove('body--open_menu_mod');
+    }
+  }
 });

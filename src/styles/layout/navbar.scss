@@ -36,50 +36,68 @@
     padding: 5rem 1.5rem;
   }
 
-  .navbar .navbar_list {
-    max-width: min-content;
+  .navbar {
+    margin-bottom: 3.76rem;
 
-    .navbar_list_item {
-      &:not(:last-child) {
-        margin-bottom: 1.88rem;
-      }
+    .navbar__list {
+      max-width: min-content;
 
-      .navLink {
-        white-space: nowrap;
-
-        @include fonts_options(1.86rem, 900, $white);
-
-        @media screen and (max-width: $point_7) {
-          font-size: 1.5rem;
+      .navbar__list_item {
+        &:not(:last-child) {
+          margin-bottom: 1.88rem;
         }
-        @media screen and (max-width: $point_8) {
-          font-size: 7vw;
+
+        .nav_link {
+          white-space: nowrap;
+          line-height: 2.24rem;
+          letter-spacing: 0;
+
+          &:hover {
+            color: $grey;
+
+            transition: $hover;
+          }
+
+          &:focus {
+            color: $black;
+
+            transition: $hover;
+          }
+
+          @include fonts_options(1.88rem, 900, $white);
+
+          @media screen and (max-width: $point_7) {
+            font-size: 1.5rem;
+          }
+          @media screen and (max-width: $point_8) {
+            font-size: 7vw;
+          }
         }
       }
     }
   }
 
   .social_networks {
-    margin-top: 3.76rem;
     padding: 3.76rem 0 0 0;
 
     width: 100%;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
 
-    .social_network_list {
+    .social_network__list {
       display: flex;
-      .social_network_list_item {
-        &:not(:last-child) {
-          margin-right: 1.26rem;
-        }
+      gap: 1.24rem;
 
-        .social_network_link .social_network_link_icon {
-          transition: $hover;
-
-          &:hover {
-            transform: scale(1.1);
-
+      .social_network__list_item {
+        .social_network__link {
+          .social_network__link_icon {
             transition: $hover;
+            fill: #ffffff;
+
+            &:hover {
+              fill: $grey;
+
+              transition: $hover;
+            }
           }
         }
       }
@@ -87,15 +105,17 @@
   }
 }
 
-.navbar_wrapper_active {
-  left: calc(50% + 17rem);
+.body--open_menu_mod {
+  .navbar_wrapper {
+    left: calc(50% + 17rem);
 
-  transition: $dropdown;
+    transition: $dropdown;
 
-  @media screen and (max-width: $point_9) {
-    left: calc(100% - 28rem);
-  }
-  @media screen and (max-width: $point_4) {
-    left: 0;
+    @media screen and (max-width: $point_9) {
+      left: calc(100% - 28rem);
+    }
+    @media screen and (max-width: $point_4) {
+      left: 0;
+    }
   }
 }
